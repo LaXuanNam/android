@@ -1,0 +1,296 @@
+ĐĂNg NHẬP
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Button btndn, btndx;
+        EditText username, password;
+
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        btndx = findViewById(R.id.btnthoat);
+        btndn = findViewById(R.id.btndangnhap);
+        username = findViewById(R.id.txttk);
+        password = findViewById(R.id.txtmk);
+        btndn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tk = username.getText().toString().trim();
+                String mk = password.getText().toString().trim();
+                if(tk.equals("")){
+                    Toast.makeText(MainActivity.this, "Vui long nhap tai khoan", Toast.LENGTH_SHORT).show();
+                }
+                else if(mk.equals("")){
+                    Toast.makeText(MainActivity.this, "Vui long nhap mat khau", Toast.LENGTH_SHORT).show();
+                }
+                else if (tk.equals("1") && mk.equals("1")) {
+                    Intent intent = new Intent(MainActivity.this, man2.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Sai tai khoan hoac mat khau", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        btndx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+}
+
+
+
+GROUP BOX, CHECK BOX
+public class man2 extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Button btnchoice, btnnext, btnexit;
+        RadioGroup radioGroup1;
+        CheckBox checkBox1, checkBox2;
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_man2);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        btnchoice = findViewById(R.id.btnchoice);
+        btnnext = findViewById(R.id.btnnext);
+        btnexit = findViewById(R.id.btnexit);
+        radioGroup1 = findViewById(R.id.radioGroup1);
+        checkBox1 = findViewById(R.id.cbBaohiem);
+        checkBox2 = findViewById(R.id.cbKiemdinh);
+        btnchoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int selected = radioGroup1.getCheckedRadioButtonId();
+                if(selected == -1){
+                    Toast.makeText(man2.this, "Vui long chon dich vu", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    RadioButton radioButton = findViewById(selected);
+                    String dichvu = radioButton.getText().toString();
+                    String phaply = "";
+                    if(checkBox1.isChecked()){
+                        phaply += "\n\t\t" + checkBox1.getText().toString();
+                    }
+                    if(checkBox2.isChecked()){
+                        phaply += "\n\t\t" + checkBox2.getText().toString();
+                    }
+                    if(phaply.isEmpty()){
+                        AlertDialog.Builder alert = new AlertDialog.Builder(man2.this);
+                        alert.setTitle("Thông tin");
+                        alert.setMessage("Goi dich vu: " + dichvu);
+                        alert.create().show();
+                    }
+                    else if(!phaply.isEmpty()){
+                        AlertDialog.Builder alert = new AlertDialog.Builder(man2.this);
+                        alert.setTitle("Thông tin");
+                        alert.setMessage("Goi dich vu: " + dichvu +"\nGoi dich vu phap ly: " + phaply);
+                        alert.create().show();
+                    }
+                }
+            }
+        });
+        btnexit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishAffinity();
+                System.exit(0);
+            }
+        });
+        btnnext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(man2.this, man3.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+LISTVIEW	LISTVIEW	LISTVIEW	LISTVIEW	LISTVIEW	LISTVIEW
+public class man3 extends AppCompatActivity {
+
+    Button btnnext;
+    ListView lv;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_man3);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        btnnext = findViewById(R.id.btnnext);
+        lv = findViewById(R.id.lv);
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Honda");
+        list.add("BMW");
+        list.add("Kia");
+        list.add("Ford");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(man3.this, list.get(i), Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnnext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(man3.this, man4.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+
+
+MENU.XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mh2">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb"
+        android:background="#B656C7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/GPT"
+    android:title="giai phuong trinh"/>
+
+    <item
+        android:id="@+id/audio"
+        android:title="Play audio"/>
+    <item
+        android:id="@+id/exit"
+        android:title="thoat"/>
+</menu>
+
+
+MENU   MENU MENU MENU MENU MENU
+
+       Toolbar toolbar = findViewById(R.id.tb);
+        setSupportActionBar(toolbar);
+    }
+    //gan menu len toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.GPT){
+            Intent intent = new Intent(mh2.this, mh3.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.audio) {
+            Intent intent = new Intent(mh2.this, mh4.class);
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.exit){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}
+
+
+AUDIO AUDIO AUDIO AUDIO AUDIO
+
+  private Button play;
+    private MediaPlayer mda;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_mh4);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        play = findViewById(R.id.play);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mda == null){
+                    mda = MediaPlayer.create(mh4.this,R.raw.senana);
+                }
+                mda.start();
+            }
+        });
+
+
+JSON    JSON    JSON              JSON              JSON
+   private ListView listView;
+    private Button buttonShow;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_mh4);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        listView = findViewById(R.id.listView);
+        buttonShow = findViewById(R.id.buttonShow);
+
+        buttonShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    showTeachers();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    private void showTeachers() throws JSONException {
+        String jsonString = "[{\"hoten\":\"Nguyen Van A\",\"gpa\":\"3.7\"}," +
+                "{\"hoten\":\"Le Van C\",\"gpa\":\"3.4\"}]";
+
+        JSONArray jsonArray = new JSONArray(jsonString);
+        ArrayList<String> teacherList = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject tc = jsonArray.getJSONObject(i);
+            String sv = "Họ tên: " + tc.getString("hoten") + "\nGPA: " + tc.getString("gpa");
+            teacherList.add(sv);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, teacherList);
+        listView.setAdapter(adapter);
+    }
+}
